@@ -1,0 +1,1247 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{Untitled9}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{os}
+\PY{k+kn}{import} \PY{n+nn}{csv}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib} \PY{k}{as} \PY{n+nn}{mpl}
+\PY{k+kn}{import} \PY{n+nn}{nltk}\PY{n+nn}{.}\PY{n+nn}{classify}\PY{n+nn}{.}\PY{n+nn}{util}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{model\PYZus{}selection} \PY{k}{import} \PY{n}{train\PYZus{}test\PYZus{}split}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{confusion\PYZus{}matrix}
+\PY{k+kn}{from} \PY{n+nn}{sklearn} \PY{k}{import} \PY{n}{metrics}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{metrics} \PY{k}{import} \PY{n}{roc\PYZus{}curve}\PY{p}{,} \PY{n}{auc}
+\PY{k+kn}{from} \PY{n+nn}{nltk}\PY{n+nn}{.}\PY{n+nn}{classify} \PY{k}{import} \PY{n}{NaiveBayesClassifier}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{re}
+\PY{k+kn}{import} \PY{n+nn}{string}
+\PY{k+kn}{import} \PY{n+nn}{nltk}
+\PY{o}{\PYZpc{}}\PY{k}{matplotlib} inline
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{os}\PY{o}{.}\PY{n}{chdir} \PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{F:/Ana1/2AI}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{os}\PY{o}{.}\PY{n}{listdir}\PY{p}{(}\PY{n}{os}\PY{o}{.}\PY{n}{getcwd}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+['1429\_1.csv',
+ '1429\_1.csv.zip',
+ 'data',
+ 'Datafiniti\_Amazon\_Consumer\_Reviews\_of\_Amazon\_Products.csv',
+ 'Datafiniti\_Amazon\_Consumer\_Reviews\_of\_Amazon\_Products.csv.zip',
+ 'Datafiniti\_Amazon\_Consumer\_Reviews\_of\_Amazon\_Products\_May19.csv',
+ 'Datafiniti\_Amazon\_Consumer\_Reviews\_of\_Amazon\_Products\_May19.csv.zip',
+ 'temp',
+ 'test.ft.txt',
+ 'train.ft.txt']
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{temp} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+sa}{r}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{F:}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{Ana1}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{2AI}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{1429\PYZus{}1.csv}\PY{l+s+s1}{\PYZbs{}}\PY{l+s+s1}{1429\PYZus{}1.csv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{c+c1}{\PYZsh{}temp.head()}
+\PY{n+nb}{print} \PY{p}{(}\PY{n}{temp}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+                         id  \textbackslash{}
+0      AVqkIhwDv8e3D1O-lebb
+1      AVqkIhwDv8e3D1O-lebb
+2      AVqkIhwDv8e3D1O-lebb
+3      AVqkIhwDv8e3D1O-lebb
+4      AVqkIhwDv8e3D1O-lebb
+{\ldots}                     {\ldots}
+34655  AVpfiBlyLJeJML43-4Tp
+34656  AVpfiBlyLJeJML43-4Tp
+34657  AVpfiBlyLJeJML43-4Tp
+34658  AVpfiBlyLJeJML43-4Tp
+34659  AVpfiBlyLJeJML43-4Tp
+
+                                                    name       asins   brand  \textbackslash{}
+0      All-New Fire HD 8 Tablet, 8 HD Display, Wi-Fi,{\ldots}  B01AHB9CN2  Amazon
+1      All-New Fire HD 8 Tablet, 8 HD Display, Wi-Fi,{\ldots}  B01AHB9CN2  Amazon
+2      All-New Fire HD 8 Tablet, 8 HD Display, Wi-Fi,{\ldots}  B01AHB9CN2  Amazon
+3      All-New Fire HD 8 Tablet, 8 HD Display, Wi-Fi,{\ldots}  B01AHB9CN2  Amazon
+4      All-New Fire HD 8 Tablet, 8 HD Display, Wi-Fi,{\ldots}  B01AHB9CN2  Amazon
+{\ldots}                                                  {\ldots}         {\ldots}     {\ldots}
+34655                                                NaN  B006GWO5WK  Amazon
+34656                                                NaN  B006GWO5WK  Amazon
+34657                                                NaN  B006GWO5WK  Amazon
+34658                                                NaN  B006GWO5WK  Amazon
+34659                                                NaN  B006GWO5WK  Amazon
+
+                                              categories  \textbackslash{}
+0      Electronics,iPad \& Tablets,All Tablets,Fire Ta{\ldots}
+1      Electronics,iPad \& Tablets,All Tablets,Fire Ta{\ldots}
+2      Electronics,iPad \& Tablets,All Tablets,Fire Ta{\ldots}
+3      Electronics,iPad \& Tablets,All Tablets,Fire Ta{\ldots}
+4      Electronics,iPad \& Tablets,All Tablets,Fire Ta{\ldots}
+{\ldots}                                                  {\ldots}
+34655  Computers/Tablets \& Networking,Tablet \& eBook {\ldots}
+34656  Computers/Tablets \& Networking,Tablet \& eBook {\ldots}
+34657  Computers/Tablets \& Networking,Tablet \& eBook {\ldots}
+34658  Computers/Tablets \& Networking,Tablet \& eBook {\ldots}
+34659  Computers/Tablets \& Networking,Tablet \& eBook {\ldots}
+
+                                                    keys  \textbackslash{}
+0      841667104676,amazon/53004484,amazon/b01ahb9cn2{\ldots}
+1      841667104676,amazon/53004484,amazon/b01ahb9cn2{\ldots}
+2      841667104676,amazon/53004484,amazon/b01ahb9cn2{\ldots}
+3      841667104676,amazon/53004484,amazon/b01ahb9cn2{\ldots}
+4      841667104676,amazon/53004484,amazon/b01ahb9cn2{\ldots}
+{\ldots}                                                  {\ldots}
+34655  newamazonkindlefirehd9wpowerfastadaptercharger{\ldots}
+34656  newamazonkindlefirehd9wpowerfastadaptercharger{\ldots}
+34657  newamazonkindlefirehd9wpowerfastadaptercharger{\ldots}
+34658  newamazonkindlefirehd9wpowerfastadaptercharger{\ldots}
+34659  newamazonkindlefirehd9wpowerfastadaptercharger{\ldots}
+
+                       manufacturer              reviews.date  \textbackslash{}
+0                            Amazon  2017-01-13T00:00:00.000Z
+1                            Amazon  2017-01-13T00:00:00.000Z
+2                            Amazon  2017-01-13T00:00:00.000Z
+3                            Amazon  2017-01-13T00:00:00.000Z
+4                            Amazon  2017-01-12T00:00:00.000Z
+{\ldots}                             {\ldots}                       {\ldots}
+34655  Amazon Digital Services, Inc      2012-09-18T00:00:00Z
+34656  Amazon Digital Services, Inc      2012-11-21T00:00:00Z
+34657  Amazon Digital Services, Inc      2012-10-19T00:00:00Z
+34658  Amazon Digital Services, Inc      2012-10-31T00:00:00Z
+34659  Amazon Digital Services, Inc      2012-12-23T00:00:00Z
+
+          reviews.dateAdded  \textbackslash{}
+0      2017-07-03T23:33:15Z
+1      2017-07-03T23:33:15Z
+2      2017-07-03T23:33:15Z
+3      2017-07-03T23:33:15Z
+4      2017-07-03T23:33:15Z
+{\ldots}                     {\ldots}
+34655                   NaN
+34656                   NaN
+34657                   NaN
+34658                   NaN
+34659                   NaN
+
+                                        reviews.dateSeen  {\ldots}  \textbackslash{}
+0      2017-06-07T09:04:00.000Z,2017-04-30T00:45:00.000Z  {\ldots}
+1      2017-06-07T09:04:00.000Z,2017-04-30T00:45:00.000Z  {\ldots}
+2      2017-06-07T09:04:00.000Z,2017-04-30T00:45:00.000Z  {\ldots}
+3      2017-06-07T09:04:00.000Z,2017-04-30T00:45:00.000Z  {\ldots}
+4      2017-06-07T09:04:00.000Z,2017-04-30T00:45:00.000Z  {\ldots}
+{\ldots}                                                  {\ldots}  {\ldots}
+34655                               2015-08-29T00:00:00Z  {\ldots}
+34656                               2015-09-02T00:00:00Z  {\ldots}
+34657                               2015-09-04T00:00:00Z  {\ldots}
+34658                               2015-09-01T00:00:00Z  {\ldots}
+34659                               2015-11-01T00:00:00Z  {\ldots}
+
+      reviews.doRecommend reviews.id  reviews.numHelpful  reviews.rating  \textbackslash{}
+0                    True        NaN                 0.0             5.0
+1                    True        NaN                 0.0             5.0
+2                    True        NaN                 0.0             5.0
+3                    True        NaN                 0.0             4.0
+4                    True        NaN                 0.0             5.0
+{\ldots}                   {\ldots}        {\ldots}                 {\ldots}             {\ldots}
+34655                 NaN        NaN                 NaN             3.0
+34656                 NaN        NaN                 NaN             1.0
+34657                 NaN        NaN                 NaN             1.0
+34658                 NaN        NaN                 NaN             1.0
+34659                 NaN        NaN                 NaN             1.0
+
+                                      reviews.sourceURLs  \textbackslash{}
+0      http://reviews.bestbuy.com/3545/5620406/review{\ldots}
+1      http://reviews.bestbuy.com/3545/5620406/review{\ldots}
+2      http://reviews.bestbuy.com/3545/5620406/review{\ldots}
+3      http://reviews.bestbuy.com/3545/5620406/review{\ldots}
+4      http://reviews.bestbuy.com/3545/5620406/review{\ldots}
+{\ldots}                                                  {\ldots}
+34655  http://www.amazon.com/Amazon-PowerFast-Adapter{\ldots}
+34656  http://www.amazon.com/Amazon-PowerFast-Adapter{\ldots}
+34657  http://www.amazon.com/Amazon-PowerFast-Adapter{\ldots}
+34658  http://www.amazon.com/Amazon-PowerFast-Adapter{\ldots}
+34659  http://www.amazon.com/Amazon-PowerFast-Adapter{\ldots}
+
+                                            reviews.text  \textbackslash{}
+0      This product so far has not disappointed. My c{\ldots}
+1      great for beginner or experienced person. Boug{\ldots}
+2      Inexpensive tablet for him to use and learn on{\ldots}
+3      I've had my Fire HD 8 two weeks now and I love{\ldots}
+4      I bought this for my grand daughter when she c{\ldots}
+{\ldots}                                                  {\ldots}
+34655  This is not appreciably faster than any other {\ldots}
+34656  Amazon should include this charger with the Ki{\ldots}
+34657  Love my Kindle Fire but I am really disappoint{\ldots}
+34658  I was surprised to find it did not come with a{\ldots}
+34659  to spite the fact that i have nothing but good{\ldots}
+
+                                           reviews.title reviews.userCity  \textbackslash{}
+0                                                 Kindle              NaN
+1                                              very fast              NaN
+2                Beginner tablet for our 9 year old son.              NaN
+3                                                Good!!!              NaN
+4                              Fantastic Tablet for kids              NaN
+{\ldots}                                                  {\ldots}              {\ldots}
+34655  Not appreciably faster than any other 1.8A cha{\ldots}              NaN
+34656                                 Should be included              NaN
+34657                              Disappointing Charger              NaN
+34658                                Not worth the money              NaN
+34659                              as with everyone else              NaN
+
+       reviews.userProvince  reviews.username
+0                       NaN           Adapter
+1                       NaN            truman
+2                       NaN             DaveZ
+3                       NaN            Shacks
+4                       NaN         explore42
+{\ldots}                     {\ldots}               {\ldots}
+34655                   NaN              Kris
+34656                   NaN  Jonathan Stewart
+34657                   NaN          J Lawson
+34658                   NaN    Just the Buyer
+34659                   NaN             sandi
+
+[34660 rows x 21 columns]
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{permanent} \PY{o}{=} \PY{n}{temp}\PY{p}{[}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reviews.rating}\PY{l+s+s1}{\PYZsq{}} \PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reviews.text}\PY{l+s+s1}{\PYZsq{}} \PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reviews.title}\PY{l+s+s1}{\PYZsq{}} \PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{reviews.username}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{permanent}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{sum}\PY{p}{(}\PY{p}{)}\PY{p}{)} \PY{c+c1}{\PYZsh{}Checking for null values}
+\PY{n}{permanent}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+reviews.rating      33
+reviews.text         1
+reviews.title        5
+reviews.username     2
+dtype: int64
+    \end{Verbatim}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   reviews.rating                                       reviews.text  \textbackslash{}
+0             5.0  This product so far has not disappointed. My c{\ldots}
+1             5.0  great for beginner or experienced person. Boug{\ldots}
+2             5.0  Inexpensive tablet for him to use and learn on{\ldots}
+3             4.0  I've had my Fire HD 8 two weeks now and I love{\ldots}
+4             5.0  I bought this for my grand daughter when she c{\ldots}
+
+                             reviews.title reviews.username
+0                                   Kindle          Adapter
+1                                very fast           truman
+2  Beginner tablet for our 9 year old son.            DaveZ
+3                                  Good!!!           Shacks
+4                Fantastic Tablet for kids        explore42
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{check} \PY{o}{=}  \PY{n}{permanent}\PY{p}{[}\PY{n}{permanent}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reviews.rating}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{isnull}\PY{p}{(}\PY{p}{)}\PY{p}{]}
+\PY{n}{check}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+      reviews.rating                                       reviews.text  \textbackslash{}
+2886             NaN  The Kindle is my first e-ink reader. I own an {\ldots}
+2887             NaN  I'm a first-time Kindle owner, so I have nothi{\ldots}
+2888             NaN  UPDATE NOVEMBER 2011:My review is now over a y{\ldots}
+2889             NaN  I'm a first-time Kindle owner, so I have nothi{\ldots}
+2890             NaN  I woke up to a nice surprise this morning: a n{\ldots}
+
+                                          reviews.title reviews.username
+2886  Worth the money. Not perfect, but very very go{\ldots}  Jeffrey Stanley
+2887  I Wanted a Dedicated E-Reader, and That's What{\ldots}   Matthew Coenen
+2888                          Kindle vs. Nook (updated)    Ron Cronovich
+2889  I Wanted a Dedicated E-Reader, and That's What{\ldots}   Matthew Coenen
+2890  Not the perfect do-it-all device, but very clo{\ldots}        C. Tipton
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{senti}\PY{o}{=} \PY{n}{permanent}\PY{p}{[}\PY{n}{permanent}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reviews.rating}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{notnull}\PY{p}{(}\PY{p}{)}\PY{p}{]}
+\PY{n}{permanent}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   reviews.rating                                       reviews.text  \textbackslash{}
+0             5.0  This product so far has not disappointed. My c{\ldots}
+1             5.0  great for beginner or experienced person. Boug{\ldots}
+2             5.0  Inexpensive tablet for him to use and learn on{\ldots}
+3             4.0  I've had my Fire HD 8 two weeks now and I love{\ldots}
+4             5.0  I bought this for my grand daughter when she c{\ldots}
+
+                             reviews.title reviews.username
+0                                   Kindle          Adapter
+1                                very fast           truman
+2  Beginner tablet for our 9 year old son.            DaveZ
+3                                  Good!!!           Shacks
+4                Fantastic Tablet for kids        explore42
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reviews.rating}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{\PYZgt{}}\PY{o}{=}\PY{l+m+mi}{4}
+\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{[}\PY{k+kc}{True} \PY{p}{,} \PY{k+kc}{False}\PY{p}{]} \PY{p}{,} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pos}\PY{l+s+s2}{\PYZdq{}} \PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:1: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  """Entry point for launching an IPython kernel.
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:2: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{value\PYZus{}counts}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{plot}\PY{o}{.}\PY{n}{bar}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+<matplotlib.axes.\_subplots.AxesSubplot at 0x215d6e89fc8>
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_8_1.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{nltk}\PY{n+nn}{.}\PY{n+nn}{classify}\PY{n+nn}{.}\PY{n+nn}{util}
+\PY{k+kn}{from} \PY{n+nn}{nltk}\PY{n+nn}{.}\PY{n+nn}{classify} \PY{k}{import} \PY{n}{NaiveBayesClassifier}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{re}
+\PY{k+kn}{import} \PY{n+nn}{string}
+\PY{k+kn}{import} \PY{n+nn}{nltk}
+
+\PY{n}{cleanup\PYZus{}re} \PY{o}{=} \PY{n}{re}\PY{o}{.}\PY{n}{compile}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{[\PYZca{}a\PYZhy{}z]+}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{k}{def} \PY{n+nf}{cleanup}\PY{p}{(}\PY{n}{sentence}\PY{p}{)}\PY{p}{:}
+    \PY{n}{sentence} \PY{o}{=} \PY{n+nb}{str}\PY{p}{(}\PY{n}{sentence}\PY{p}{)}
+    \PY{n}{sentence} \PY{o}{=} \PY{n}{sentence}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}
+    \PY{n}{sentence} \PY{o}{=} \PY{n}{cleanup\PYZus{}re}\PY{o}{.}\PY{n}{sub}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{ }\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{sentence}\PY{p}{)}\PY{o}{.}\PY{n}{strip}\PY{p}{(}\PY{p}{)}
+    \PY{c+c1}{\PYZsh{}sentence = \PYZdq{} \PYZdq{}.join(nltk.word\PYZus{}tokenize(sentence))}
+    \PY{k}{return} \PY{n}{sentence}
+
+\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reviews.text}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{cleanup}\PY{p}{)}
+\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{reviews.text}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{apply}\PY{p}{(}\PY{n}{cleanup}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:16: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  app.launch\_new\_instance()
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:17: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{split} \PY{o}{=} \PY{n}{senti}\PY{p}{[}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}} \PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{train}\PY{o}{=}\PY{n}{split}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{n}{frac}\PY{o}{=}\PY{l+m+mf}{0.8}\PY{p}{,}\PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{200}\PY{p}{)}
+\PY{n}{test}\PY{o}{=}\PY{n}{split}\PY{o}{.}\PY{n}{drop}\PY{p}{(}\PY{n}{train}\PY{o}{.}\PY{n}{index}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{word\PYZus{}feats}\PY{p}{(}\PY{n}{words}\PY{p}{)}\PY{p}{:}
+    \PY{n}{features} \PY{o}{=} \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}}
+    \PY{k}{for} \PY{n}{word} \PY{o+ow}{in} \PY{n}{words}\PY{p}{:}
+        \PY{n}{features} \PY{p}{[}\PY{n}{word}\PY{p}{]} \PY{o}{=} \PY{k+kc}{True}
+    \PY{k}{return} \PY{n}{features}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{16}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+\PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{lower}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{str}\PY{o}{.}\PY{n}{split}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{train}\PY{o}{.}\PY{n}{index} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{n}{train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{test}\PY{o}{.}\PY{n}{index} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{n}{test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{check}\PY{o}{.}\PY{n}{index} \PY{o}{=} \PY{n+nb}{range}\PY{p}{(}\PY{n}{check}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}
+\PY{n}{prediction} \PY{o}{=}  \PY{p}{\PYZob{}}\PY{p}{\PYZcb{}} \PY{c+c1}{\PYZsh{}\PYZsh{} For storing results of different classifiers}
+
+\PY{n}{train\PYZus{}naive} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{test\PYZus{}naive} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{n}{check\PYZus{}naive} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{train}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{train\PYZus{}naive} \PY{o}{=} \PY{n}{train\PYZus{}naive} \PY{o}{+}\PY{p}{[}\PY{p}{[}\PY{n}{word\PYZus{}feats}\PY{p}{(}\PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{p}{,} \PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{test\PYZus{}naive} \PY{o}{=} \PY{n}{test\PYZus{}naive} \PY{o}{+}\PY{p}{[}\PY{p}{[}\PY{n}{word\PYZus{}feats}\PY{p}{(}\PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)} \PY{p}{,} \PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{]}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{check}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{check\PYZus{}naive} \PY{o}{=} \PY{n}{check\PYZus{}naive} \PY{o}{+}\PY{p}{[}\PY{n}{word\PYZus{}feats}\PY{p}{(}\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{p}{]}
+
+
+\PY{n}{classifier} \PY{o}{=} \PY{n}{NaiveBayesClassifier}\PY{o}{.}\PY{n}{train}\PY{p}{(}\PY{n}{train\PYZus{}naive}\PY{p}{)}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{NLTK Naive bayes Accuracy : }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{nltk}\PY{o}{.}\PY{n}{classify}\PY{o}{.}\PY{n}{util}\PY{o}{.}\PY{n}{accuracy}\PY{p}{(}\PY{n}{classifier} \PY{p}{,} \PY{n}{test\PYZus{}naive}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+\PY{n}{classifier}\PY{o}{.}\PY{n}{show\PYZus{}most\PYZus{}informative\PYZus{}features}\PY{p}{(}\PY{l+m+mi}{5}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:3: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  This is separate from the ipykernel package so we can avoid doing imports
+until
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+NLTK Naive bayes Accuracy : 0.5897472924187726
+Most Informative Features
+                 deleted = True              neg : pos    =     51.3 : 1.0
+                 warning = True              neg : pos    =     51.3 : 1.0
+                    nope = True              neg : pos    =     42.0 : 1.0
+                    bent = True              neg : pos    =     42.0 : 1.0
+                  rotate = True              neg : pos    =     42.0 : 1.0
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{17}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{y} \PY{o}{=}\PY{p}{[}\PY{p}{]}
+\PY{n}{only\PYZus{}words}\PY{o}{=} \PY{p}{[}\PY{n}{test\PYZus{}naive}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{test}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{y} \PY{o}{=} \PY{n}{y} \PY{o}{+} \PY{p}{[}\PY{n}{classifier}\PY{o}{.}\PY{n}{classify}\PY{p}{(}\PY{n}{only\PYZus{}words}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{p}{)}\PY{p}{]}
+\PY{n}{prediction}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Naive}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{asarray}\PY{p}{(}\PY{n}{y}\PY{p}{)}
+
+\PY{n}{y1} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{check}\PY{o}{.}\PY{n}{shape}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{:}
+    \PY{n}{y1} \PY{o}{=} \PY{n}{y1} \PY{o}{+} \PY{p}{[}\PY{n}{classifier}\PY{o}{.}\PY{n}{classify}\PY{p}{(}\PY{n}{check\PYZus{}naive}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{p}{)}\PY{p}{]}
+
+\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Naive}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{y1}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:11: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  \# This is added back by InteractiveShellApp.init\_path()
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{18}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{wordcloud} \PY{k}{import} \PY{n}{STOPWORDS}
+
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{feature\PYZus{}extraction}\PY{n+nn}{.}\PY{n+nn}{text} \PY{k}{import} \PY{n}{TfidfTransformer}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{feature\PYZus{}extraction}\PY{n+nn}{.}\PY{n+nn}{text} \PY{k}{import} \PY{n}{CountVectorizer}
+\PY{n}{stopwords} \PY{o}{=} \PY{n+nb}{set}\PY{p}{(}\PY{n}{STOPWORDS}\PY{p}{)}
+\PY{n}{stopwords}\PY{o}{.}\PY{n}{remove}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{not}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{count\PYZus{}vect} \PY{o}{=} \PY{n}{CountVectorizer}\PY{p}{(}\PY{n}{min\PYZus{}df}\PY{o}{=}\PY{l+m+mi}{2} \PY{p}{,}\PY{n}{stop\PYZus{}words}\PY{o}{=}\PY{n}{stopwords} \PY{p}{,} \PY{n}{ngram\PYZus{}range}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}
+\PY{n}{tfidf\PYZus{}transformer} \PY{o}{=} \PY{n}{TfidfTransformer}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{X\PYZus{}train\PYZus{}counts} \PY{o}{=} \PY{n}{count\PYZus{}vect}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}        
+\PY{n}{X\PYZus{}train\PYZus{}tfidf} \PY{o}{=} \PY{n}{tfidf\PYZus{}transformer}\PY{o}{.}\PY{n}{fit\PYZus{}transform}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}counts}\PY{p}{)}
+
+
+\PY{n}{X\PYZus{}new\PYZus{}counts} \PY{o}{=} \PY{n}{count\PYZus{}vect}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{X\PYZus{}test\PYZus{}tfidf} \PY{o}{=} \PY{n}{tfidf\PYZus{}transformer}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{X\PYZus{}new\PYZus{}counts}\PY{p}{)}
+
+\PY{n}{checkcounts} \PY{o}{=} \PY{n}{count\PYZus{}vect}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{checktfidf} \PY{o}{=} \PY{n}{tfidf\PYZus{}transformer}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{checkcounts}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}feature\_extraction\textbackslash{}text.py:300: UserWarning:
+Your stop\_words may be inconsistent with your preprocessing. Tokenizing the stop
+words generated tokens ['aren', 'couldn', 'didn', 'doesn', 'don', 'hadn',
+'hasn', 'haven', 'isn', 'let', 'll', 'mustn', 're', 'shan', 'shouldn', 've',
+'wasn', 'weren', 'won', 'wouldn'] not in stop\_words.
+  'stop\_words.' \% sorted(inconsistent))
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{19}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{naive\PYZus{}bayes} \PY{k}{import} \PY{n}{MultinomialNB}
+\PY{n}{model1} \PY{o}{=} \PY{n}{MultinomialNB}\PY{p}{(}\PY{p}{)}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}tfidf} \PY{p}{,} \PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{prediction}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Multinomial}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{model1}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}tfidf}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Multinomial Accuracy : }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{model1}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}tfidf} \PY{p}{,} \PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{multi}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{model1}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{checktfidf}\PY{p}{)}\PY{c+c1}{\PYZsh{}\PYZsh{} Predicting Sentiment for Check which was Null values for rating}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Multinomial Accuracy : 0.9329963898916968
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:6: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{20}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{sklearn} \PY{k}{import} \PY{n}{linear\PYZus{}model}
+\PY{n}{logreg} \PY{o}{=} \PY{n}{linear\PYZus{}model}\PY{o}{.}\PY{n}{LogisticRegression}\PY{p}{(}\PY{n}{solver}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lbfgs}\PY{l+s+s1}{\PYZsq{}} \PY{p}{,} \PY{n}{C}\PY{o}{=}\PY{l+m+mi}{1000}\PY{p}{)}
+\PY{n}{logistic} \PY{o}{=} \PY{n}{logreg}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{X\PYZus{}train\PYZus{}tfidf}\PY{p}{,} \PY{n}{train}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{prediction}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LogisticRegression}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{logreg}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}tfidf}\PY{p}{)}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+\PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Logistic Regression Accuracy : }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{logreg}\PY{o}{.}\PY{n}{score}\PY{p}{(}\PY{n}{X\PYZus{}test\PYZus{}tfidf} \PY{p}{,} \PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{check}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{log}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{logreg}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{checktfidf}\PY{p}{)}\PY{c+c1}{\PYZsh{}\PYZsh{} Predicting Sentiment for Check which was Null values for rating}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Logistic Regression Accuracy : 0.9370397111913358
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}linear\_model\textbackslash{}logistic.py:947:
+ConvergenceWarning: lbfgs failed to converge. Increase the number of iterations.
+  "of iterations.", ConvergenceWarning)
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}ipykernel\_launcher.py:7: SettingWithCopyWarning:
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row\_indexer,col\_indexer] = value instead
+
+See the caveats in the documentation: http://pandas.pydata.org/pandas-
+docs/stable/user\_guide/indexing.html\#returning-a-view-versus-a-copy
+  import sys
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{words} \PY{o}{=} \PY{n}{count\PYZus{}vect}\PY{o}{.}\PY{n}{get\PYZus{}feature\PYZus{}names}\PY{p}{(}\PY{p}{)}
+\PY{n}{feature\PYZus{}coefs} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{data} \PY{o}{=} \PY{n+nb}{list}\PY{p}{(}\PY{n+nb}{zip}\PY{p}{(}\PY{n}{words}\PY{p}{,} \PY{n}{logistic}\PY{o}{.}\PY{n}{coef\PYZus{}}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{,}
+    \PY{n}{columns} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{feature}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{coef}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{feature\PYZus{}coefs}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{coef}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{21}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                feature       coef
+42481          terrible -20.573017
+48056   will definitely -19.966041
+10647        done great -19.315774
+38807              slow -19.155387
+18450        great year -18.620106
+{\ldots}                 {\ldots}        {\ldots}
+32876   probably wouldn  16.218805
+28400  not disappointed  16.495246
+30972           perfect  17.800337
+17859             great  19.006732
+24303              love  27.221845
+
+[49281 rows x 2 columns]
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{22}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{formatt}\PY{p}{(}\PY{n}{x}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{x} \PY{o}{==} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{neg}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{k}{return} \PY{l+m+mi}{0}
+    \PY{k}{if} \PY{n}{x} \PY{o}{==} \PY{l+m+mi}{0}\PY{p}{:}
+        \PY{k}{return} \PY{l+m+mi}{0}
+    \PY{k}{return} \PY{l+m+mi}{1}
+\PY{n}{vfunc} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{vectorize}\PY{p}{(}\PY{n}{formatt}\PY{p}{)}
+
+\PY{n+nb}{cmp} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{n}{colors} \PY{o}{=} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{b}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{y}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{m}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{k}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}
+\PY{k}{for} \PY{n}{model}\PY{p}{,} \PY{n}{predicted} \PY{o+ow}{in} \PY{n}{prediction}\PY{o}{.}\PY{n}{items}\PY{p}{(}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{model} \PY{o+ow}{not} \PY{o+ow}{in} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Naive}\PY{l+s+s1}{\PYZsq{}}\PY{p}{:}
+        \PY{n}{false\PYZus{}positive\PYZus{}rate}\PY{p}{,} \PY{n}{true\PYZus{}positive\PYZus{}rate}\PY{p}{,} \PY{n}{thresholds} \PY{o}{=} \PY{n}{roc\PYZus{}curve}\PY{p}{(}\PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{map}\PY{p}{(}\PY{n}{vfunc}\PY{p}{)}\PY{p}{,} \PY{n}{predicted}\PY{p}{)}
+        \PY{n}{roc\PYZus{}auc} \PY{o}{=} \PY{n}{auc}\PY{p}{(}\PY{n}{false\PYZus{}positive\PYZus{}rate}\PY{p}{,} \PY{n}{true\PYZus{}positive\PYZus{}rate}\PY{p}{)}
+        \PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{false\PYZus{}positive\PYZus{}rate}\PY{p}{,} \PY{n}{true\PYZus{}positive\PYZus{}rate}\PY{p}{,} \PY{n}{colors}\PY{p}{[}\PY{n+nb}{cmp}\PY{p}{]}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s1}{: AUC }\PY{l+s+si}{\PYZpc{}0.2f}\PY{l+s+s1}{\PYZsq{}}\PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{model}\PY{p}{,}\PY{n}{roc\PYZus{}auc}\PY{p}{)}\PY{p}{)}
+        \PY{n+nb}{cmp} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Classifiers comparaison with ROC}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{loc}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{lower right}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{,}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r\PYZhy{}\PYZhy{}}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{l+m+mf}{1.2}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylim}\PY{p}{(}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{l+m+mf}{0.1}\PY{p}{,}\PY{l+m+mf}{1.2}\PY{p}{]}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{True Positive Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{False Positive Rate}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_19_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{23}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{test}\PY{o}{.}\PY{n}{senti} \PY{o}{=} \PY{n}{test}\PY{o}{.}\PY{n}{senti}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pos}\PY{l+s+s2}{\PYZdq{}} \PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{p}{,} \PY{p}{[}\PY{k+kc}{True} \PY{p}{,} \PY{k+kc}{False}\PY{p}{]} \PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{24}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{keys} \PY{o}{=} \PY{n}{prediction}\PY{o}{.}\PY{n}{keys}\PY{p}{(}\PY{p}{)}
+\PY{k}{for} \PY{n}{key} \PY{o+ow}{in} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Multinomial}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Bernoulli}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{LogisticRegression}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{:}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ }\PY{l+s+si}{\PYZob{}\PYZcb{}}\PY{l+s+s2}{:}\PY{l+s+s2}{\PYZdq{}}\PY{o}{.}\PY{n}{format}\PY{p}{(}\PY{n}{key}\PY{p}{)}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{n}{metrics}\PY{o}{.}\PY{n}{classification\PYZus{}report}\PY{p}{(}\PY{n}{test}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{senti}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{prediction}\PY{o}{.}\PY{n}{get}\PY{p}{(}\PY{n}{key}\PY{p}{)}
+\PY{o}{\PYZgt{}}\PY{o}{.}\PY{l+m+mi}{5}\PY{p}{,} \PY{n}{target\PYZus{}names} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{positive}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{negative}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+se}{\PYZbs{}n}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+ Multinomial:
+              precision    recall  f1-score   support
+
+    positive       0.00      0.00      0.00       464
+    negative       0.93      1.00      0.97      6461
+
+    accuracy                           0.93      6925
+   macro avg       0.47      0.50      0.48      6925
+weighted avg       0.87      0.93      0.90      6925
+
+
+
+ Bernoulli:
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+F:\textbackslash{}Ana1\textbackslash{}lib\textbackslash{}site-packages\textbackslash{}sklearn\textbackslash{}metrics\textbackslash{}classification.py:1437:
+UndefinedMetricWarning: Precision and F-score are ill-defined and being set to
+0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn\_for)
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+
+        ---------------------------------------------------------------------------
+
+        TypeError                                 Traceback (most recent call last)
+
+        <ipython-input-24-610fdcc06fdd> in <module>
+          3     print(" \{\}:".format(key))
+          4     print(metrics.classification\_report(test["senti"], prediction.get(key)
+    ----> 5 >.5, target\_names = ["positive", "negative"]))
+          6     print("\textbackslash{}n")
+    
+
+        TypeError: '>' not supported between instances of 'NoneType' and 'float'
+
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{25}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k}{def} \PY{n+nf}{test\PYZus{}sample}\PY{p}{(}\PY{n}{model}\PY{p}{,} \PY{n}{sample}\PY{p}{)}\PY{p}{:}
+    \PY{n}{sample\PYZus{}counts} \PY{o}{=} \PY{n}{count\PYZus{}vect}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{p}{[}\PY{n}{sample}\PY{p}{]}\PY{p}{)}
+    \PY{n}{sample\PYZus{}tfidf} \PY{o}{=} \PY{n}{tfidf\PYZus{}transformer}\PY{o}{.}\PY{n}{transform}\PY{p}{(}\PY{n}{sample\PYZus{}counts}\PY{p}{)}
+    \PY{n}{result} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{sample\PYZus{}tfidf}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n}{prob} \PY{o}{=} \PY{n}{model}\PY{o}{.}\PY{n}{predict\PYZus{}proba}\PY{p}{(}\PY{n}{sample\PYZus{}tfidf}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}
+    \PY{n+nb}{print}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Sample estimated as }\PY{l+s+si}{\PYZpc{}s}\PY{l+s+s2}{: negative prob }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s2}{, positive prob }\PY{l+s+si}{\PYZpc{}f}\PY{l+s+s2}{\PYZdq{}} \PY{o}{\PYZpc{}} \PY{p}{(}\PY{n}{result}\PY{o}{.}\PY{n}{upper}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{prob}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{n}{prob}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}\PY{p}{)}
+
+\PY{n}{test\PYZus{}sample}\PY{p}{(}\PY{n}{logreg}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{The product was good and easy to  use}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{test\PYZus{}sample}\PY{p}{(}\PY{n}{logreg}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{the whole experience was horrible and product is worst}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{test\PYZus{}sample}\PY{p}{(}\PY{n}{logreg}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{product is not good}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+Sample estimated as POS: negative prob 0.000000, positive prob 1.000000
+Sample estimated as NEG: negative prob 0.994023, positive prob 0.005977
+Sample estimated as NEG: negative prob 0.965335, positive prob 0.034665
+    \end{Verbatim}
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{check}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{l+m+mi}{10}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{26}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+   reviews.rating                                       reviews.text  \textbackslash{}
+0             NaN  The Kindle is my first e-ink reader. I own an {\ldots}
+1             NaN  I'm a first-time Kindle owner, so I have nothi{\ldots}
+2             NaN  UPDATE NOVEMBER 2011:My review is now over a y{\ldots}
+3             NaN  I'm a first-time Kindle owner, so I have nothi{\ldots}
+4             NaN  I woke up to a nice surprise this morning: a n{\ldots}
+5             NaN  The Kindle is my first e-ink reader. I own an {\ldots}
+6             NaN  UPDATE NOVEMBER 2011:br /br /My review is now {\ldots}
+7             NaN  I woke up to a nice surprise this morning: a n{\ldots}
+8             NaN  I use to hate to read but now that I have my K{\ldots}
+9             NaN  All of them quit working. There's absolutely n{\ldots}
+
+                                       reviews.title         reviews.username  \textbackslash{}
+0  Worth the money. Not perfect, but very very go{\ldots}          Jeffrey Stanley
+1  I Wanted a Dedicated E-Reader, and That's What{\ldots}           Matthew Coenen
+2                          Kindle vs. Nook (updated)            Ron Cronovich
+3  I Wanted a Dedicated E-Reader, and That's What{\ldots}           Matthew Coenen
+4  Not the perfect do-it-all device, but very clo{\ldots}                C. Tipton
+5  Worth the money. Not perfect, but very very go{\ldots}          Jeffrey Stanley
+6                          Kindle vs. Nook (updated)            Ron Cronovich
+7  Not the perfect do-it-all device, but very clo{\ldots}                C. Tipton
+8                                              Great                 D. Tatro
+9                                        I've had 3!  M. Lansford Kindle fave
+
+                                       Summary\_Clean  \textbackslash{}
+0  the kindle is my first e ink reader i own an i{\ldots}
+1  i m a first time kindle owner so i have nothin{\ldots}
+2  update november my review is now over a year o{\ldots}
+3  i m a first time kindle owner so i have nothin{\ldots}
+4  i woke up to a nice surprise this morning a ne{\ldots}
+5  the kindle is my first e ink reader i own an i{\ldots}
+6  update november br br my review is now over a {\ldots}
+7  i woke up to a nice surprise this morning a ne{\ldots}
+8  i use to hate to read but now that i have my k{\ldots}
+9  all of them quit working there s absolutely no{\ldots}
+
+                                               words Naive multi  log
+0  [the, kindle, is, my, first, e, ink, reader, i{\ldots}   neg   pos  pos
+1  [i, m, a, first, time, kindle, owner, so, i, h{\ldots}   neg   pos  pos
+2  [update, november, my, review, is, now, over, {\ldots}   neg   pos  pos
+3  [i, m, a, first, time, kindle, owner, so, i, h{\ldots}   neg   pos  pos
+4  [i, woke, up, to, a, nice, surprise, this, mor{\ldots}   neg   pos  pos
+5  [the, kindle, is, my, first, e, ink, reader, i{\ldots}   neg   pos  pos
+6  [update, november, br, br, my, review, is, now{\ldots}   neg   pos  pos
+7  [i, woke, up, to, a, nice, surprise, this, mor{\ldots}   neg   pos  pos
+8  [i, use, to, hate, to, read, but, now, that, i{\ldots}   pos   pos  pos
+9  [all, of, them, quit, working, there, s, absol{\ldots}   neg   pos  pos
+\end{Verbatim}
+\end{tcolorbox}
+        
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{27}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{from} \PY{n+nn}{wordcloud} \PY{k}{import} \PY{n}{WordCloud}\PY{p}{,} \PY{n}{STOPWORDS}
+\PY{n}{stopwords} \PY{o}{=} \PY{n+nb}{set}\PY{p}{(}\PY{n}{STOPWORDS}\PY{p}{)}
+
+
+\PY{n}{mpl}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{font.size}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{12}                \PY{c+c1}{\PYZsh{}10 }
+\PY{n}{mpl}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{savefig.dpi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{l+m+mi}{100}             \PY{c+c1}{\PYZsh{}72 }
+\PY{n}{mpl}\PY{o}{.}\PY{n}{rcParams}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{figure.subplot.bottom}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{o}{=}\PY{o}{.}\PY{l+m+mi}{1} 
+
+
+\PY{k}{def} \PY{n+nf}{show\PYZus{}wordcloud}\PY{p}{(}\PY{n}{data}\PY{p}{,} \PY{n}{title} \PY{o}{=} \PY{k+kc}{None}\PY{p}{)}\PY{p}{:}
+    \PY{n}{wordcloud} \PY{o}{=} \PY{n}{WordCloud}\PY{p}{(}
+        \PY{n}{background\PYZus{}color}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{white}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,}
+        \PY{n}{stopwords}\PY{o}{=}\PY{n}{stopwords}\PY{p}{,}
+        \PY{n}{max\PYZus{}words}\PY{o}{=}\PY{l+m+mi}{300}\PY{p}{,}
+        \PY{n}{max\PYZus{}font\PYZus{}size}\PY{o}{=}\PY{l+m+mi}{40}\PY{p}{,} 
+        \PY{n}{scale}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,}
+        \PY{n}{random\PYZus{}state}\PY{o}{=}\PY{l+m+mi}{1} \PY{c+c1}{\PYZsh{} chosen at random by flipping a coin; it was heads}
+        
+    \PY{p}{)}\PY{o}{.}\PY{n}{generate}\PY{p}{(}\PY{n+nb}{str}\PY{p}{(}\PY{n}{data}\PY{p}{)}\PY{p}{)}
+    
+    \PY{n}{fig} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{figure}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{n}{figsize}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{15}\PY{p}{,} \PY{l+m+mi}{15}\PY{p}{)}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{off}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+    \PY{k}{if} \PY{n}{title}\PY{p}{:} 
+        \PY{n}{fig}\PY{o}{.}\PY{n}{suptitle}\PY{p}{(}\PY{n}{title}\PY{p}{,} \PY{n}{fontsize}\PY{o}{=}\PY{l+m+mi}{20}\PY{p}{)}
+        \PY{n}{fig}\PY{o}{.}\PY{n}{subplots\PYZus{}adjust}\PY{p}{(}\PY{n}{top}\PY{o}{=}\PY{l+m+mf}{2.3}\PY{p}{)}
+
+    \PY{n}{plt}\PY{o}{.}\PY{n}{imshow}\PY{p}{(}\PY{n}{wordcloud}\PY{p}{)}
+    \PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+    
+\PY{n}{show\PYZus{}wordcloud}\PY{p}{(}\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{28}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{show\PYZus{}wordcloud}\PY{p}{(}\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{senti}\PY{o}{.}\PY{n}{senti} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{pos}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Postive Words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_25_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{29}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{show\PYZus{}wordcloud}\PY{p}{(}\PY{n}{senti}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Summary\PYZus{}Clean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{n}{senti}\PY{o}{.}\PY{n}{senti} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{neg}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{p}{,} \PY{n}{title}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Negative words}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{output_26_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+
+\end{Verbatim}
+\end{tcolorbox}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
